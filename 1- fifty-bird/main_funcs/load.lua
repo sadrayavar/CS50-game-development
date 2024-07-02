@@ -1,8 +1,3 @@
-require 'assets.fonts.fonts'
-require 'assets.images.images'
-require 'assets.musics.musics'
-require 'assets.sounds.sounds'
-
 function love.load()
     -- pixelize images instead of making them blurry
     love.graphics.setDefaultFilter('nearest', 'nearest')
@@ -12,17 +7,22 @@ function love.load()
 
     -- set push library resizing properties 
     push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGTH, WINDOW_WIDTH, WINDOW_HEIGTH, {
-        fullscreen = false,
-        resizable = true,
+        fullscreen = true,
+        resizable = false,
         vsync = true
     })
 
     -- set random seed for randomizing purpose
     math.randomseed(os.time())
 
+    -- background related variables
+    bg0PositionX = 0
+    bg1PositionX = 0
+    bg2PositionX = 0
+
     -- assets
-    fonts = fonts()
-    images = images()
-    musics = musics()
-    sounds = sounds()
+    fonts = require('assets.fonts.fonts')
+    images = require("assets.images.images")
+    sounds = require("assets.sounds.sounds")
+    musics = require("assets.musics.musics")
 end

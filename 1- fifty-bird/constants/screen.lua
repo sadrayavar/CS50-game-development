@@ -1,7 +1,5 @@
 -- real resolution
-love.graphics.setMode(0, 0, false, false)
-WINDOW_WIDTH = love.graphics.getWidth()
-WINDOW_HEIGTH = love.graphics.getHeight()
+WINDOW_WIDTH, WINDOW_HEIGTH = love.graphics.getDimensions()
 
 -- virtual resolution
 VIRTUAL_WIDTH = 512
