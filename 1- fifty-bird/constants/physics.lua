@@ -1,3 +1,7 @@
+-- background speed
 BACKGROUND_0_SPEED = 0
 BACKGROUND_1_SPEED = 30
 BACKGROUND_2_SPEED = 60
+
+-- gravity
+GRAVITY = 20

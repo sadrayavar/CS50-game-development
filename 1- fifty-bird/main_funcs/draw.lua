@@ -5,18 +5,23 @@ local function drawBackground(drawable, x)
 end
 
 function love.draw()
-    push:start()
+    Push:start()
 
+    -- render background
     drawBackground(images.background['0'], -bg0PositionX)
     drawBackground(images.background['1'], -bg1PositionX)
     drawBackground(images.background['2'], -bg2PositionX)
 
+    -- render bird
+    bird:render()
+
+    -- kind of log
     local text = ""
     text = text .. "+" .. bg0PositionX
     text = text .. "+" .. bg1PositionX
     text = text .. "+" .. bg2PositionX
     love.graphics.print(text)
 
-    push:finish()
+    Push:finish()
 end
 

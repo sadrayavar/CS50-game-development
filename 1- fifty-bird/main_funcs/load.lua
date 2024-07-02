@@ -1,4 +1,10 @@
 function love.load()
+    -- assets
+    fonts = fonts
+    images = images
+    sounds = sounds
+    musics = musics
+
     -- pixelize images instead of making them blurry
     love.graphics.setDefaultFilter('nearest', 'nearest')
 
@@ -6,7 +12,7 @@ function love.load()
     love.window.setTitle(TITLE)
 
     -- set push library resizing properties 
-    push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGTH, WINDOW_WIDTH, WINDOW_HEIGTH, {
+    Push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGTH, WINDOW_WIDTH, WINDOW_HEIGTH, {
         fullscreen = true,
         resizable = false,
         vsync = true
@@ -20,9 +26,6 @@ function love.load()
     bg1PositionX = 0
     bg2PositionX = 0
 
-    -- assets
-    fonts = require('assets.fonts.fonts')
-    images = require("assets.images.images")
-    sounds = require("assets.sounds.sounds")
-    musics = require("assets.musics.musics")
+    -- initialize bird
+    bird = Bird()
 end
