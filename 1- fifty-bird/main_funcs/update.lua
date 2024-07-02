@@ -6,4 +6,7 @@ function love.update(dt)
 
     -- update bird logic
     bird:update(dt)
+
+    -- clearing global keyboard handling state
+    love.keyboard.keysPressed = {}
 end

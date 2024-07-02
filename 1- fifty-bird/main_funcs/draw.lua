@@ -17,9 +17,8 @@ function love.draw()
 
     -- kind of log
     local text = ""
-    text = text .. "+" .. bg0PositionX
-    text = text .. "+" .. bg1PositionX
-    text = text .. "+" .. bg2PositionX
+    text = text .. "+" .. bird.y
+    text = text .. "+" .. bird.dy
     love.graphics.print(text)
 
     Push:finish()
