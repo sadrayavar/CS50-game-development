@@ -15,10 +15,13 @@ function love.draw()
     -- render bird
     bird:render()
 
-    -- kind of log
+    -- render pipe
+    for key, value in pairs(pipes) do
+        value:render()
+    end
+
+    -- kind of log 
     local text = ""
-    text = text .. "+" .. bird.y
-    text = text .. "+" .. bird.dy
     love.graphics.print(text)
 
     Push:finish()

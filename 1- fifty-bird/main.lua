@@ -1,6 +1,5 @@
 -- import constants
 require "constants.screen"
-require "constants.title"
 require "constants.physics"
 
 -- import assets
@@ -19,6 +18,7 @@ getState = require 'dep.physics.state'
 
 -- import classes
 Bird = require 'dep.bird'
+Pipe = require 'dep.pipe'
 
 -- import main love functions (in order of executing)
 require 'main_funcs.load'

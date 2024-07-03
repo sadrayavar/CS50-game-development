@@ -27,6 +27,10 @@ function love.load()
         return love.keyboard.keysPressed[key]
     end
 
+    --[[
+        global variables
+    ]]
+
     -- background related variables
     bg0PositionX = 0
     bg1PositionX = 0
@@ -34,4 +38,8 @@ function love.load()
 
     -- initialize bird
     bird = Bird()
+
+    -- pipes related variables
+    pipes = {}
+    spawnTimer = 0
 end
