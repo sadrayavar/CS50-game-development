@@ -8,18 +8,12 @@ function Bird:init()
     self.dy = 0
 
     -- initialize dimensions
-    self.width = 30
-    self.height = 25
+    self.w = 30
+    self.h = 25
 
     -- initialize position
-    self.x = VIRTUAL_WIDTH / 2 - self.width / 2
-    self.y = VIRTUAL_HEIGTH / 2 - self.height / 2
-
-    -- initialize sides
-    self.top = self.x
-    self.down = self.x + self.height
-    self.left = self.y
-    self.right = self.y + self.width
+    self.x = VIRTUAL_WIDTH / 2 - self.w / 2
+    self.y = VIRTUAL_HEIGTH / 2 - self.h / 2
 end
 
 local function handleInput(self)
@@ -36,16 +30,13 @@ function Bird:update(dt)
     self.dy = self.dy + GRAVITY * dt
     self.y = self.y + self.dy
 
-    -- calculate sides
-    self.top = self.x
-    self.down = self.x + self.height
-    self.left = self.y
-    self.right = self.y + self.width
+    --detect collusion to up and down
+    -- isCollide()
 end
 
 function Bird:render()
-    love.graphics.draw(self.image, self.x, self.y, 0, self.width / self.image:getWidth(),
-        self.height / self.image:getHeight())
+    love.graphics.draw(self.image, self.x, self.y, 0, self.w / self.image:getWidth(),
+        self.h / self.image:getHeight())
 end
 
 return Bird

@@ -42,4 +42,5 @@ function love.load()
     -- pipes related variables
     pipes = {}
     spawnTimer = 0
+    latestY = 0
 end

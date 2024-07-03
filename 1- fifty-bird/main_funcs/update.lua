@@ -24,7 +24,7 @@ function love.update(dt)
         pipe:update(dt)
 
         -- set removable pipes
-        if pipe.x < -pipe.width then
+        if pipe.lower.x < -pipe.lower.w then
             pipe.remove = true
         end
     end

@@ -1,45 +1,47 @@
 local Pipe = Class {}
 
 function Pipe:init(gap)
-    -- initialize bird image
-    self.image = images.pipe
+    -- settings
+    self.remove = false -- initializing remove property to avoid glitch
+    self.gap = gap -- initialize gap
 
     -- initialize dimensions
-    self.width = 50
-    self.height = VIRTUAL_HEIGTH
-
-    -- initialize gap
-    self.gap = gap
-
-    -- initialize position
-    self.y = math.random(self.gap, VIRTUAL_HEIGTH)
-    self.x = VIRTUAL_WIDTH
-
-    -- initialize sides
-    self.top = self.x
-    self.down = self.x + self.height
-    self.left = self.y
-    self.right = self.y + self.width
-
-    -- initializing remove property to avoid glitch
-    self.remove = false
+    self.lower = {
+        ['x'] = VIRTUAL_WIDTH,
+        ['y'] = math.random(self.gap, VIRTUAL_HEIGTH),
+        ['w'] = 50,
+        ['h'] = VIRTUAL_HEIGTH - self.gap
+    }
+    self.upper = {
+        ['x'] = self.lower.x,
+        ['y'] = self.lower.y - self.gap - self.lower.h,
+        ['w'] = self.lower.w,
+        ['h'] = self.lower.h
+    }
 end
 
 function Pipe:update(dt)
-    self.x = self.x - PIPE_SPEED * dt
-
-    -- calculate sides
-    self.top = self.x
-    self.down = self.x + self.height
-    self.left = self.y
-    self.right = self.y + self.width
+    -- move pipes to the left
+    self.lower.x = self.lower.x - PIPE_SPEED * dt
+    self.upper.x = self.upper.x - PIPE_SPEED * dt
 end
 
 function Pipe:render()
-    love.graphics.draw(self.image, self.x, self.y, 0, self.width / self.image:getWidth(),
-        self.height / self.image:getHeight())
-    love.graphics.draw(self.image, self.x, self.y - self.gap, 0, self.width / self.image:getWidth(),
-        -self.height / self.image:getHeight())
+    love.graphics.draw(images.pipe, -- image
+    self.lower.x, -- left position
+    self.lower.y, -- top position
+    0, -- rotation
+    self.lower.w / images.pipe:getWidth(), -- horizontal scale 
+    self.lower.h / images.pipe:getHeight() -- vertical scale
+    )
+
+    love.graphics.draw(images.pipe, -- image
+    self.upper.x, -- left position
+    self.upper.y + self.upper.h, -- top position (I', add it to its height so it fixes the scaling movement)
+    0, -- rotation
+    self.upper.w / images.pipe:getWidth(), -- horizontal scale
+    -self.upper.h / images.pipe:getHeight() -- vertical scale
+    )
 end
 
 return Pipe
