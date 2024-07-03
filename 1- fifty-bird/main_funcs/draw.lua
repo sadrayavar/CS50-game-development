@@ -20,8 +20,14 @@ function love.draw()
         value:render()
     end
 
-    -- kind of log 
+    -- kind of log
+    local number = 0
+    for k, v in pairs(pipes) do
+        number = number + 1
+    end
+
     local text = ""
+    text = text .. "+" .. number
     love.graphics.print(text)
 
     Push:finish()

@@ -23,8 +23,15 @@ function love.update(dt)
         -- move pipes
         pipe:update(dt)
 
-        -- remove pipes
+        -- set removable pipes
         if pipe.x < -pipe.width then
+            pipe.remove = true
+        end
+    end
+
+    -- remove pipes
+    for key, pipe in pairs(pipes) do
+        if pipe.remove then
             table.remove(pipes, key)
         end
     end

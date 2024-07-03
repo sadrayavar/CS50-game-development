@@ -20,6 +20,9 @@ function Pipe:init(gap)
     self.down = self.x + self.height
     self.left = self.y
     self.right = self.y + self.width
+
+    -- initializing remove property to avoid glitch
+    self.remove = false
 end
 
 function Pipe:update(dt)
@@ -35,8 +38,8 @@ end
 function Pipe:render()
     love.graphics.draw(self.image, self.x, self.y, 0, self.width / self.image:getWidth(),
         self.height / self.image:getHeight())
-    love.graphics.draw(self.image, self.x + self.width, self.y - self.gap, math.pi, self.width / self.image:getWidth(),
-        self.height / self.image:getHeight())
+    love.graphics.draw(self.image, self.x, self.y - self.gap, 0, self.width / self.image:getWidth(),
+        -self.height / self.image:getHeight())
 end
 
 return Pipe
