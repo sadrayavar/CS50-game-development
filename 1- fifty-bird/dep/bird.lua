@@ -13,15 +13,15 @@ function Bird:init()
     self.wall = {
         ['u'] = {
             ['x'] = 0,
-            ['y'] = -10,
+            ['y'] = -100,
             ['w'] = VIRTUAL_WIDTH,
-            ['h'] = 10
+            ['h'] = 100
         },
         ['l'] = {
             ['x'] = 0,
             ['y'] = VIRTUAL_HEIGTH,
             ['w'] = VIRTUAL_WIDTH,
-            ['h'] = 10
+            ['h'] = 100
         }
     }
     lastColl = {
@@ -50,8 +50,14 @@ function Bird:update(dt)
 end
 
 function Bird:render()
-    love.graphics
-        .draw(images.bird, self.x, self.y, 0, self.w / images.bird:getWidth(), self.h / images.bird:getHeight())
+    -- multiplying with a positive number so it wont get edgy on collusion detection
+    love.graphics.draw(images.bird, -- 
+    birdMargin.left + self.x, --  
+    birdMargin.top + self.y, -- 
+    0, -- 
+    (1 - birdMargin.right / 100) * self.w / images.bird:getWidth(), -- 
+    (1 - birdMargin.bottom / 100) * self.h / images.bird:getHeight() -- 
+    )
 end
 
 return Bird
