@@ -10,6 +10,15 @@ function Bird:init()
     self.x = VIRTUAL_WIDTH / 2 - self.w / 2
     self.y = VIRTUAL_HEIGTH / 2 - self.h / 2
 
+    self.jump = GRAVITY * 0.3 -- bird jumping velocity
+    self.MARGIN = {
+        ['top'] = 1.5,
+        ['right'] = 1.5,
+        ['left'] = 1.5,
+        ['bottom'] = 1.5
+    }
+    self.score = 0
+
     self.wall = {
         ['u'] = {
             ['x'] = 0,
@@ -33,7 +42,7 @@ end
 function Bird:update(dt)
     -- handle inputs
     if love.keyboard.keysPressed["space"] then
-        self.dy = -ANTI_GRAVITY
+        self.dy = -self.jump
     end
 
     -- handle gravity logic
@@ -52,11 +61,11 @@ end
 function Bird:render()
     -- multiplying with a positive number so it wont get edgy on collusion detection
     love.graphics.draw(images.bird, -- 
-    birdMargin.left + self.x, --  
-    birdMargin.top + self.y, -- 
+    self.MARGIN.left + self.x, --  
+    self.MARGIN.top + self.y, -- 
     0, -- 
-    (1 - birdMargin.right / 100) * self.w / images.bird:getWidth(), -- 
-    (1 - birdMargin.bottom / 100) * self.h / images.bird:getHeight() -- 
+    (1 - self.MARGIN.right / 100) * self.w / images.bird:getWidth(), -- 
+    (1 - self.MARGIN.bottom / 100) * self.h / images.bird:getHeight() -- 
     )
 end
 

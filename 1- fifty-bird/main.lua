@@ -18,13 +18,6 @@ require 'states.BaseState'
 require 'states.PlayState'
 require 'states.TitleState'
 
--- import global variables
-require "global.screen"
-require 'global.background'
-require 'global.bird'
-require 'global.pipe'
-require 'global.gap'
-
 -- import main love functions (in order of executin)
 require 'main_funcs.load'
 require 'main_funcs.resize'
