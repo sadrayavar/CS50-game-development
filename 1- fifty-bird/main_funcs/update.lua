@@ -14,8 +14,14 @@ function love.update(dt)
         update pipe logic
     ]]
     -- spawn pipes
-    if spawnTimer > 2 then
-        table.insert(pipes, Pipe(math.random(75, 100)))
+    if spawnTimer > spawnEvery then
+        -- update the gap
+        lastPipe.gap = math.random(gapRange.low, gapRange.high)
+
+        -- generate pipe and insert it to the pipe table        
+        table.insert(pipes, Pipe(lastPipe.gap))
+
+        -- update spawn timer
         spawnTimer = 0
     end
 

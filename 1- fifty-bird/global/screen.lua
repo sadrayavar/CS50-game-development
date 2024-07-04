@@ -1,9 +1,10 @@
--- real resolution
+-- real dimension
 WINDOW_WIDTH, WINDOW_HEIGTH = love.graphics.getDimensions()
 
--- virtual resolution
+-- virtual dimensions
 VIRTUAL_WIDTH = 512
 VIRTUAL_HEIGTH = 288
 
--- title
+-- title of the window
 TITLE = "Fifty Bird (My Version)"
+

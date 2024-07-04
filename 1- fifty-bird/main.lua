@@ -1,6 +1,4 @@
--- import constants
-require "constants.screen"
-require "constants.physics"
+-- global variablse has been imported in load.lua
 
 -- import assets
 fonts = require('assets.fonts.fonts')
@@ -26,3 +24,5 @@ require 'main_funcs.resize'
 require 'main_funcs.keypressed'
 require 'main_funcs.update'
 require 'main_funcs.draw'
+
+-- left on 1:32:55
