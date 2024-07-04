@@ -3,7 +3,6 @@ local Pipe = Class {}
 function Pipe:init(gap)
     -- settings
     self.remove = false -- initializing remove property to avoid glitch
-    self.gap = gap
 
     -- initialize dimensions
     self.transition = gapTrans * lastPipe.gap
@@ -26,8 +25,8 @@ function Pipe:init(gap)
     lastPipe.y = self.lower.y
 
     -- initialize last state according to bird
-    -- self.topLastState = getState(self.topSides, bird)
-    -- self.bottomLastState = getState(self.bottomSides, bird)
+    self.uppertState = getState(self.upper, bird)
+    self.lowertState = getState(self.lower, bird)
 end
 
 function Pipe:update(dt)
@@ -35,23 +34,21 @@ function Pipe:update(dt)
     self.lower.x = self.lower.x - PIPE_SPEED * dt
     self.upper.x = self.upper.x - PIPE_SPEED * dt
 
-    -- -- update left & right slides values 
-    -- self.topSides.left = self.x
-    -- self.topSides.right = self.x + self.w
-    -- self.bottomSides.left = self.x
-    -- self.bottomSides.right = self.x + self.w
-
     --[[
         detect and update collision state
     ]]
-    -- local currentTopCollideState = getState(self.topSides, bird)
-    -- local currentBottomCollideState = getState(self.bottomSides, bird)
+    local crntUppertState = getState(self.upper, bird)
+    local crntLowertState = getState(self.lower, bird)
 
-    -- isCollide(self.topLastState, currentTopCollideState)
-    -- isCollide(self.bottomLastState, currentBottomCollideState)
+    if isCollide(self.uppertState, crntUppertState) then
+        collusion = collusion + 1
+    end
+    if isCollide(self.lowertState, crntLowertState) then
+        collusion = collusion + 1
+    end
 
-    -- self.topLastState = currentTopCollideState
-    -- self.bottomLastState = currentBottomCollideState
+    self.uppertState = crntUppertState
+    self.lowertState = crntLowertState
 end
 
 function Pipe:render()
@@ -70,15 +67,6 @@ function Pipe:render()
     self.upper.w / images.pipe:getWidth(), -- horizontal scale
     -self.upper.h / images.pipe:getHeight() -- vertical scale
     )
-
-    -- local text = 'y' .. self.lower.y .. "\nh" .. self.lower.h
-    -- love.graphics.print(text, self.lower.x, self.lower.y)
-
-    -- local text = self.transition .. "#" .. self.lowerBound .. "#" .. self.upperBound .. '\n' .. self.gap
-    -- love.graphics.print(text, self.upper.x, self.upper.y + self.upper.h + self.gap / 2 - 5)
-
-    -- local text = "\nb" .. self.upper.y + self.upper.h
-    -- love.graphics.print(text, self.upper.x, self.upper.y + self.upper.h - 50)
 end
 
 return Pipe

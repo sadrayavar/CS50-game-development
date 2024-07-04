@@ -27,7 +27,7 @@ function love.draw()
     end
 
     local text = ""
-    text = text .. "+" .. number
+    text = text .. "+" .. collusion
     love.graphics.print(text)
 
     Push:finish()
