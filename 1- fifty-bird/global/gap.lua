@@ -3,8 +3,8 @@ gapTrans = 0.5 -- (difficulty handle)
 
 -- new gap range
 gapRange = {
-    ['low'] = 75, -- (difficulty handle)
-    ['high'] = 100 -- (difficulty handle)
+    ['low'] = 60, -- (difficulty handle)
+    ['high'] = 75 -- (difficulty handle)
 }
 
 -- used to save the point in which the new gap will be transmitted from

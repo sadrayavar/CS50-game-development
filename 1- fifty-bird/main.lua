@@ -1,28 +1,33 @@
--- global variablse has been imported in load.lua
-
 -- import assets
-fonts = require('assets.fonts.fonts')
-images = require("assets.images.images")
-sounds = require("assets.sounds.sounds")
-musics = require("assets.musics.musics")
+fonts = require 'assets.fonts.fonts'
+images = require "assets.images.images"
+sounds = require "assets.sounds.sounds"
+musics = require "assets.musics.musics"
 
 -- import libraries
 Class = require "dep.lib.class"
 Push = require "dep.lib.push"
-
--- import physics related methods
-isCollide = require 'dep.physics.collide'
-getState = require 'dep.physics.state'
-
--- import classes
 Bird = require 'dep.bird'
 Pipe = require 'dep.pipe'
+isCollide = require 'dep.physics.collide'
+getState = require 'dep.physics.state'
+StateMachine = require "dep.lib.StateMachine"
 
--- import main love functions (in order of executing)
+-- import states
+require 'states.BaseState'
+require 'states.PlayState'
+require 'states.TitleState'
+
+-- import global variables
+require "global.screen"
+require 'global.background'
+require 'global.bird'
+require 'global.pipe'
+require 'global.gap'
+
+-- import main love functions (in order of executin)
 require 'main_funcs.load'
 require 'main_funcs.resize'
 require 'main_funcs.keypressed'
 require 'main_funcs.update'
 require 'main_funcs.draw'
-
--- left on 1:32:55

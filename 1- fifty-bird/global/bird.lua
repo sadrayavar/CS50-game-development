@@ -12,3 +12,5 @@ birdMargin = {
     ['left'] = 1.5,
     ['bottom'] = 1.5
 }
+
+bird = Bird()

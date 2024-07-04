@@ -1,17 +1,4 @@
 function love.load()
-    -- import global variables
-    require 'global.background'
-    require 'global.bird'
-    require 'global.pipe'
-    require 'global.screen'
-    require 'global.gap'
-
-    bird = Bird()
-
-    --[[
-       ############################################################################## setting
-    ]]
-
     -- pixelize images instead of making them blurry
     love.graphics.setDefaultFilter('nearest', 'nearest')
 
@@ -33,4 +20,15 @@ function love.load()
     images = images
     sounds = sounds
     musics = musics
+
+    -- initialize state machine
+    gStateMachine = StateMachine {
+        ['title'] = function()
+            return TitleState()
+        end,
+        ['play'] = function()
+            return PlayState()
+        end
+    }
+    gStateMachine:change('play')
 end
