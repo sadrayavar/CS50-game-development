@@ -7,8 +7,8 @@ function love.load()
 
     -- set push library resizing properties 
     WINDOW_WIDTH, WINDOW_HEIGTH = love.graphics.getDimensions()
-    VIRTUAL_WIDTH, VIRTUAL_HEIGTH = 512, 288
-    Push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGTH, WINDOW_WIDTH, WINDOW_HEIGTH, {
+    VIRTUAL_WIDTH, VIRTUAL_HEIGHT = 512, 288
+    Push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGTH, {
         fullscreen = true,
         resizable = false,
         vsync = true
@@ -39,5 +39,5 @@ function love.load()
             return PlayState()
         end
     }
-    gStateMachine:change('play')
+    gStateMachine:change('title')
 end

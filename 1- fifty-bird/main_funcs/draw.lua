@@ -1,7 +1,7 @@
 local function drawBackground(drawable, x)
-    love.graphics.draw(drawable, x, 0, 0, VIRTUAL_WIDTH / drawable:getWidth(), VIRTUAL_HEIGTH / drawable:getHeight())
+    love.graphics.draw(drawable, x, 0, 0, VIRTUAL_WIDTH / drawable:getWidth(), VIRTUAL_HEIGHT / drawable:getHeight())
     love.graphics.draw(drawable, x + VIRTUAL_WIDTH, 0, 0, VIRTUAL_WIDTH / drawable:getWidth(),
-        VIRTUAL_HEIGTH / drawable:getHeight())
+        VIRTUAL_HEIGHT / drawable:getHeight())
 end
 
 function love.draw()

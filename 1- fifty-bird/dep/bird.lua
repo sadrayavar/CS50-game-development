@@ -8,7 +8,7 @@ function Bird:init()
     self.w = 30
     self.h = 25
     self.x = VIRTUAL_WIDTH / 2 - self.w / 2
-    self.y = VIRTUAL_HEIGTH / 2 - self.h / 2
+    self.y = VIRTUAL_HEIGHT / 2 - self.h / 2
 
     self.jump = GRAVITY * 0.3 -- bird jumping velocity
     self.MARGIN = {
@@ -28,7 +28,7 @@ function Bird:init()
         },
         ['l'] = {
             ['x'] = 0,
-            ['y'] = VIRTUAL_HEIGTH,
+            ['y'] = VIRTUAL_HEIGHT,
             ['w'] = VIRTUAL_WIDTH,
             ['h'] = 100
         }

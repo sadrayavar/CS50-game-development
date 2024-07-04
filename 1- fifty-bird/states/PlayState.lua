@@ -37,7 +37,7 @@ function PlayState:init()
 
         -- used to save the point in which the new gap will be transmitted from
         ['last'] = {
-            ['y'] = VIRTUAL_HEIGTH / 2,
+            ['y'] = VIRTUAL_HEIGHT / 2,
             ['gap'] = nil
         },
 

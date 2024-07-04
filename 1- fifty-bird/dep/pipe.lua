@@ -6,13 +6,13 @@ function Pipe:init(inputGap)
 
     -- initialize dimensions
     self.transition = gap.trans * pipe.last.gap
-    self.lowerBound = math.min(pipe.last.y + self.transition, VIRTUAL_HEIGTH)
+    self.lowerBound = math.min(pipe.last.y + self.transition, VIRTUAL_HEIGHT)
     self.upperBound = math.max(inputGap, pipe.last.y - self.transition)
     self.lower = {
         ['x'] = VIRTUAL_WIDTH,
         ['y'] = math.random(self.upperBound, self.lowerBound),
         ['w'] = 50,
-        ['h'] = VIRTUAL_HEIGTH - inputGap
+        ['h'] = VIRTUAL_HEIGHT - inputGap
     }
     self.upper = {
         ['x'] = self.lower.x,
