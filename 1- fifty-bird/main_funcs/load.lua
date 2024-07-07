@@ -1,13 +1,11 @@
 function love.load()
     -- set title
-    love.window.setTitle("Fifty Bird (My Version)")
+    love.window.setTitle(TITLE)
 
     -- pixelize images instead of making them blurry
     love.graphics.setDefaultFilter('nearest', 'nearest')
 
     -- set push library resizing properties 
-    WINDOW_WIDTH, WINDOW_HEIGTH = love.graphics.getDimensions()
-    VIRTUAL_WIDTH, VIRTUAL_HEIGHT = 512, 288
     Push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGTH, {
         fullscreen = true,
         resizable = false,
@@ -17,7 +15,7 @@ function love.load()
     -- set random seed for randomizing purpose
     math.randomseed(os.time())
 
-    -- assets
+    -- requiring assets
     fonts = fonts
     images = images
     sounds = sounds
@@ -37,6 +35,9 @@ function love.load()
         end,
         ['play'] = function()
             return PlayState()
+        end,
+        ['countdown'] = function()
+            return CountdownState()
         end
     }
     gStateMachine:change('title')

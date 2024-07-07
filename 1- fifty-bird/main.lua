@@ -1,3 +1,6 @@
+-- import constents to support constent usage on assets
+require 'dep.constents'
+
 -- import assets
 fonts = require 'assets.fonts.fonts'
 images = require "assets.images.images"
@@ -14,9 +17,10 @@ getState = require 'dep.physics.state'
 StateMachine = require "dep.lib.StateMachine"
 
 -- import states
-require 'states.BaseState'
-require 'states.PlayState'
-require 'states.TitleState'
+require 'dep.states.BaseState'
+require 'dep.states.PlayState'
+require 'dep.states.TitleState'
+require 'dep.states.CountdownState'
 
 -- import main love functions (in order of executin)
 require 'main_funcs.load'
