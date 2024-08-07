@@ -1,6 +1,6 @@
 local Pipe = Class {}
 
-function Pipe:init(x, y, w, h, bird, top)
+function Pipe:init(x, y, w, h, top)
     -- initialize dimensions
     self.x = x
     self.y = y
@@ -10,14 +10,11 @@ function Pipe:init(x, y, w, h, bird, top)
     -- to prevent multi scoring for a pipe
     self.scored = false
 
-    -- initialize bird
-    self.bird = bird
-
     -- invert the upper pipe
     self.top = top or false
 
     -- this variable is essential to calculate the collusion with the bird using my own collusion detection library that detects collusion even in higher speeds
-    self.lastColl = getState(self, self.bird)
+    self.lastColl = getState(self, bird)
 end
 
 function Pipe:update(dt)
@@ -27,12 +24,12 @@ function Pipe:update(dt)
     -- do not calculate if this pipe is passed (performance)
     if not self.scored then
         -- calculate the current state of this pipe according to the bird
-        local crrntState = getState(self, self.bird)
+        local crrntState = getState(self, bird)
 
         -- check if collusion is made
         if isCollide(self.lastColl, crrntState) then
             gStateMachine:change('score', {
-                score = self.bird.score
+                score = bird.score
             })
         end
 
@@ -42,8 +39,8 @@ function Pipe:update(dt)
 
     -- increase score
     if self.top and not self.scored then
-        if self.x + self.w < self.bird.x then
-            self.bird.score = self.bird.score + 1
+        if self.x + self.w < bird.x then
+            bird.score = bird.score + 1
             self.scored = true
         end
     end

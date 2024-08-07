@@ -5,7 +5,7 @@ local CountdownState = Class {
 function CountdownState:enter(params)
     self.paused = params.paused
     if self.paused then
-        self.bird = params.bird
+        bird = params.bird
         self.pipeArray = params.pipeArray
         self.lastGap = params.lastGap
     end
@@ -22,7 +22,7 @@ function CountdownState:update(dt)
         if self.paused then
             gStateMachine:change('play', {
                 paused = true,
-                bird = self.bird,
+                bird = bird,
                 pipeArray = self.pipeArray,
                 lastGap = self.lastGap
             })

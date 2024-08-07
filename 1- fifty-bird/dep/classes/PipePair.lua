@@ -1,6 +1,6 @@
 local PipePair = Class {}
 
-function PipePair:init(lastSize, lastCenter, gapSize, bird)
+function PipePair:init(lastSize, lastCenter, gapSize)
     -- initializing remove property to avoid glitch
     self.rmvbl = false
 
@@ -35,8 +35,8 @@ function PipePair:init(lastSize, lastCenter, gapSize, bird)
     local pyl = newDown -- for lower pipe
 
     -- create pipes
-    self.topPipe = Pipe(px, pyu, pw, ph, bird, true)
-    self.btmPipe = Pipe(px, pyl, pw, ph, bird)
+    self.topPipe = Pipe(px, pyu, pw, ph, true)
+    self.btmPipe = Pipe(px, pyl, pw, ph)
 end
 
 function PipePair:update(dt)

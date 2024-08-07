@@ -5,7 +5,7 @@ local PlayState = Class {
 function PlayState:enter(params)
     local paused = params.paused or false
     if paused then
-        self.bird = params.bird
+        bird = params.bird
         self.pipeArray = params.pipeArray
         self.lastGap = params.lastGap
     else
@@ -16,12 +16,12 @@ end
 
 function PlayState:init()
     -- bird object
-    self.bird = Bird()
+    bird = Bird()
 
     -- horizontal walls
     local wallThick = 500
-    self.upperWall = Wall(0, -wallThick, GAME.dim.vw, wallThick, self.bird)
-    self.lowerWall = Wall(0, GAME.dim.vh, GAME.dim.vw, wallThick, self.bird)
+    self.upperWall = Wall(0, -wallThick, GAME.dim.vw, wallThick)
+    self.lowerWall = Wall(0, GAME.dim.vh, GAME.dim.vw, wallThick)
 
     -- initializing gap attributes
     self.lastGap = {}
@@ -37,14 +37,14 @@ function PlayState:update(dt)
     if love.keyboard.wasPressed('escape') then
         gStateMachine:change('pause', {
             paused = true,
-            bird = self.bird,
+            bird = bird,
             pipeArray = self.pipeArray,
             lastGap = self.lastGap
         })
     end
 
     -- update bird logic
-    self.bird:update(dt)
+    bird:update(dt)
 
     -- update wall logic
     self.upperWall:update(dt)
@@ -58,7 +58,7 @@ function PlayState:update(dt)
         local newGap = math.random(GAP.size, GAP.size * 1.5)
 
         -- generate pipe and insert it to the pipe table        
-        local newPair = PipePair(self.lastGap.size, self.lastGap.center, newGap, self.bird)
+        local newPair = PipePair(self.lastGap.size, self.lastGap.center, newGap)
         table.insert(self.pipeArray, newPair)
 
         -- update last gap
@@ -112,7 +112,7 @@ end
 
 function PlayState:render()
     -- render bird
-    self.bird:render()
+    bird:render()
 
     -- render pipe
     for k, p in pairs(self.pipeArray) do
@@ -122,7 +122,7 @@ function PlayState:render()
     -- print score
     love.graphics.setColor(0 / 255, 0 / 255, 0 / 255)
     local font = fonts.cubic(GAME.dim.vh / 12)
-    local text = 'Score: ' .. tostring(self.bird.score)
+    local text = 'Score: ' .. tostring(bird.score)
     love.graphics.print(text, font, 0, 0)
 end
 
