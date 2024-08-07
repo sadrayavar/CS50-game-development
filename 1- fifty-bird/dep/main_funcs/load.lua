@@ -1,12 +1,12 @@
 function love.load()
     -- set title
-    love.window.setTitle(TITLE)
+    love.window.setTitle(GAME.title)
 
     -- pixelize images instead of making them blurry
     love.graphics.setDefaultFilter('nearest', 'nearest')
 
     -- set push library resizing properties 
-    Push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGTH, {
+    Push:setupScreen(GAME.dim.vw, GAME.dim.vh, GAME.dim.w, GAME.dim.h, {
         fullscreen = true,
         resizable = false,
         vsync = true
@@ -36,8 +36,14 @@ function love.load()
         ['play'] = function()
             return PlayState()
         end,
+        ['pause'] = function()
+            return PauseState()
+        end,
         ['countdown'] = function()
             return CountdownState()
+        end,
+        ['score'] = function()
+            return ScoreState()
         end
     }
     gStateMachine:change('title')

@@ -1,4 +1,4 @@
 function love.resize(w, h)
     Push:resize(w, h)
-    WINDOW_WIDTH, WINDOW_HEIGTH = love.graphics.getDimensions()
+    GAME.dim.w, GAME.dim.h = love.graphics.getDimensions()
 end

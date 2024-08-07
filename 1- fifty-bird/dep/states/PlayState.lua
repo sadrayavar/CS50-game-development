@@ -1,105 +1,99 @@
-PlayState = Class {
+local PlayState = Class {
     __includes = BaseState
 }
 
+function PlayState:enter(params)
+    if params.paused or false then
+        self.bird = params.bird
+        self.pipeArray = params.pipeArray
+        self.lastGap = params.lastGap
+    end
+end
+
 function PlayState:init()
-    GRAVITY = 9 -- (difficulty handle)
+    -- bird object
+    self.bird = Bird()
 
-    collusion = 0
+    -- horizontal walls
+    local wallThick = 500
+    self.upperWall = Wall(0, -wallThick, GAME.dim.vw, wallThick, self.bird)
+    self.lowerWall = Wall(0, GAME.dim.vh, GAME.dim.vw, wallThick, self.bird)
 
-    bird = {
-        ['b'] = Bird(),
-        ['jump'] = GRAVITY * 0.3, -- bird jumping velocity
-        ['MARGIN'] = {
-            ['top'] = 1.5,
-            ['right'] = 1.5,
-            ['left'] = 1.5,
-            ['bottom'] = 1.5
-        },
-        ['score'] = 0
-    }
+    -- initializing gap attributes
+    self.lastGap = {}
+    self.lastGap.passed = PIPE.distance -- set to constent distance to spawn every time respective distance is passed
+    self.lastGap.size = GAP.range.high -- saving last gap's size to transit the new gap according to it
+    self.lastGap.center = GAME.dim.vh / 2 -- last y to transit new pipe according to it
 
-    gap = {
-        -- the fraction of current gap that the next one can transit
-        ['trans'] = 0.5,
-
-        -- new gap range
-        ['range'] = {
-            ['low'] = 60, -- (difficulty handle)
-            ['high'] = 75 -- (difficulty handle)
-        }
-    }
-
-    -- distance between pipes
-    pipe = {
-        -- pipes tables to save the created pipes
-        set = {},
-
-        -- used to save the point in which the new gap will be transmitted from
-        ['last'] = {
-            ['y'] = VIRTUAL_HEIGHT / 2,
-            ['gap'] = nil
-        },
-
-        -- distance between pipes
-        distance = 1, -- (difficulty handle)
-
-        -- pipe speed
-        SPEED = 60 -- (difficulty handle)
-    }
-    -- the time it takes for every pipe to spawn
-    pipe.spawnEvery = pipe.SPEED / 30 * pipe.distance
-
-    -- spawn timer to handle pipe spawning  
-    pipe.spawnTimer = pipe.spawnEvery -- set to spawnEvery so it spawns as soon as the game started 
+    -- pipes tables to save the created pipes
+    self.pipeArray = {}
 end
 
 function PlayState:update(dt)
-    -- update spawnTimer
-    pipe.spawnTimer = pipe.spawnTimer + dt
-
-    -- update bird logic
-    bird.b:update(dt)
-
-    --[[
-        update pipe logic
-        ]]
-    -- spawn pipes
-    if pipe.spawnTimer > pipe.spawnEvery then
-        -- update the gap
-        pipe.last.gap = math.random(gap.range.low, gap.range.high)
-
-        -- generate pipe and insert it to the pipe table        
-        table.insert(pipe.set, Pipe(pipe.last.gap))
-
-        -- update spawn timer
-        pipe.spawnTimer = 0
+    if love.keyboard.wasPressed('escape') then
+        gStateMachine:change('pause', {
+            paused = true,
+            bird = self.bird,
+            pipeArray = self.pipeArray,
+            lastGap = self.lastGap
+        })
     end
 
-    for k, p in pairs(pipe.set) do
-        -- move pipes
+    -- update bird logic
+    self.bird:update(dt)
+
+    -- update wall logic
+    self.upperWall:update(dt)
+    self.lowerWall:update(dt)
+
+    -- spawn pipes
+    local passedNow = dt * PIPE.speed
+    self.lastGap.passed = self.lastGap.passed + passedNow -- update spawnTimer
+    if self.lastGap.passed >= PIPE.distance then
+        -- generate pipe and insert it to the pipe table        
+        local newPair = PipePair(self.lastGap.size, self.lastGap.center, self.bird)
+        table.insert(self.pipeArray, newPair)
+
+        -- update last gap
+        self.lastGap = {
+            ['passed'] = 0, -- update spawn timer
+            ['size'] = newPair.gapSize, -- update last gap size
+            ['center'] = newPair.center -- update last gap center
+        }
+    end
+
+    -- move pipes
+    for k, p in pairs(self.pipeArray) do
         p:update(dt)
 
-        -- set removable pipes
-        if p.lower.x < -p.lower.w then
-            p.remove = true
+        -- set removable flag on pipes
+        if p.btmPipe.x < -p.btmPipe.w then
+            p.rmvbl = true
         end
     end
 
     -- remove pipes
-    for k, p in pairs(pipe.set) do
-        if p.remove then
-            table.remove(pipe.set, k)
+    for k, p in pairs(self.pipeArray) do
+        if p.rmvbl then
+            table.remove(self.pipeArray, k)
         end
     end
 end
 
 function PlayState:render()
     -- render bird
-    bird.b:render()
+    self.bird:render()
 
     -- render pipe
-    for key, value in pairs(pipe.set) do
-        value:render()
+    for k, p in pairs(self.pipeArray) do
+        p:render()
     end
+
+    -- print score
+    love.graphics.setColor(0 / 255, 0 / 255, 0 / 255)
+    local font = fonts.cubic(GAME.dim.vh / 12)
+    local text = 'Score: ' .. tostring(self.bird.score)
+    love.graphics.print(text, font, 0, 0)
 end
+
+return PlayState

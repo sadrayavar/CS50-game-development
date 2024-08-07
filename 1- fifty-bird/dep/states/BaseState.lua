@@ -13,7 +13,7 @@
     so by inheriting from this base state, our State classes will all have
     at least empty versions of these methods even if we don't define them
     ourselves in the actual classes.
-]] BaseState = Class {}
+]] local BaseState = Class {}
 
 function BaseState:init()
 end
@@ -25,3 +25,4 @@ function BaseState:update(dt)
 end
 function BaseState:render()
 end
+return BaseState

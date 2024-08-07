@@ -8,23 +8,33 @@ sounds = require "assets.sounds.sounds"
 musics = require "assets.musics.musics"
 
 -- import libraries
-Class = require "dep.lib.class"
-Push = require "dep.lib.push"
-Bird = require 'dep.bird'
-Pipe = require 'dep.pipe'
-isCollide = require 'dep.physics.collide'
-getState = require 'dep.physics.state'
+Push = require "dep.lib.Push"
+Class = require "dep.lib.Class"
 StateMachine = require "dep.lib.StateMachine"
+isCollide = require 'dep.lib.physics.collide'
+getState = require 'dep.lib.physics.state'
+
+-- import classes
+Bird = require 'dep.classes.Bird'
+Wall = require 'dep.classes.Wall'
+Pipe = require 'dep.classes.Pipe'
+PipePair = require 'dep.classes.PipePair'
 
 -- import states
-require 'dep.states.BaseState'
-require 'dep.states.PlayState'
-require 'dep.states.TitleState'
-require 'dep.states.CountdownState'
+BaseState = require 'dep.states.BaseState'
+PlayState = require 'dep.states.PlayState'
+PauseState = require 'dep.states.PauseState'
+TitleState = require 'dep.states.TitleState'
+CountdownState = require 'dep.states.CountdownState'
+ScoreState = require 'dep.states.ScoreState'
 
 -- import main love functions (in order of executin)
-require 'main_funcs.load'
-require 'main_funcs.resize'
-require 'main_funcs.keypressed'
-require 'main_funcs.update'
-require 'main_funcs.draw'
+require 'dep.main_funcs.load'
+require 'dep.main_funcs.resize'
+require 'dep.main_funcs.keypressed'
+require 'dep.main_funcs.update'
+require 'dep.main_funcs.draw'
+--[[
+	FIXME background
+TODO difficulty growing
+]]

@@ -1,7 +1,8 @@
 local function drawBackground(drawable, x)
-    love.graphics.draw(drawable, x, 0, 0, VIRTUAL_WIDTH / drawable:getWidth(), VIRTUAL_HEIGHT / drawable:getHeight())
-    love.graphics.draw(drawable, x + VIRTUAL_WIDTH, 0, 0, VIRTUAL_WIDTH / drawable:getWidth(),
-        VIRTUAL_HEIGHT / drawable:getHeight())
+    love.graphics.draw(drawable, x, 0, 0, GAME.dim.vw / drawable:getWidth(),
+        GAME.dim.vh / drawable:getHeight())
+    love.graphics.draw(drawable, x + GAME.dim.vw, 0, 0, GAME.dim.vw / drawable:getWidth(),
+        GAME.dim.vh / drawable:getHeight())
 end
 
 function love.draw()
@@ -16,9 +17,7 @@ function love.draw()
     gStateMachine:render()
 
     -- kind of log
-    local text = ""
-    text = text .. "+" .. 'log'
-    love.graphics.print(text)
+    love.graphics.print(logText)
 
     Push:finish()
 end
