@@ -50,14 +50,17 @@ function PlayState:update(dt)
     local passedNow = dt * PIPE.speed
     self.lastGap.passed = self.lastGap.passed + passedNow -- update spawnTimer
     if self.lastGap.passed >= PIPE.distance then
+        -- new gap size
+        local newGap = math.random(GAP.range.low, GAP.range.high)
+
         -- generate pipe and insert it to the pipe table        
-        local newPair = PipePair(self.lastGap.size, self.lastGap.center, self.bird)
+        local newPair = PipePair(self.lastGap.size, self.lastGap.center, newGap, self.bird)
         table.insert(self.pipeArray, newPair)
 
         -- update last gap
         self.lastGap = {
             ['passed'] = 0, -- update spawn timer
-            ['size'] = newPair.gapSize, -- update last gap size
+            ['size'] = newGap, -- update last gap size
             ['center'] = newPair.center -- update last gap center
         }
     end

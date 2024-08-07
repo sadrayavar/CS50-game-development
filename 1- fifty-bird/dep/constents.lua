@@ -4,6 +4,15 @@ GAME = {
     ['ar'] = 16 / 9, -- aspect ratio
     ['dim'] = {
         ['vh'] = 288 -- virtual screen height
+    },
+    ['bgSpeed'] = { -- update backgrounds
+        ['1'] = 10,
+        ['2'] = 15,
+        ['3'] = 20,
+        ['4'] = 25,
+        ['5'] = 40,
+        ['6'] = 50,
+        ['7'] = 60
     }
 }
 GAME.dim.w, GAME.dim.h = love.graphics.getDimensions() -- real dimensions of the game window
@@ -34,7 +43,7 @@ GAP = {
 
 PIPE = {
     ['w'] = 50, -- width of each pipe
-    ['speed'] = 60 * 2, -- pipe speed (pixel per second)
+    ['speed'] = GAME.bgSpeed['7'] * 1.1, -- pipe speed (pixel per second)
     ['distance'] = 4 * BIRD.w -- distance between pipes
 }
 PIPE.distance = PIPE.distance + PIPE.w -- increment distance between pipes by the pipe width

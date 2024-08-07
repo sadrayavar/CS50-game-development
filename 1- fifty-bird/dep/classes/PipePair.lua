@@ -1,6 +1,6 @@
 local PipePair = Class {}
 
-function PipePair:init(lastSize, lastCenter, bird)
+function PipePair:init(lastSize, lastCenter, gapSize, bird)
     -- initializing remove property to avoid glitch
     self.rmvbl = false
 
@@ -11,38 +11,21 @@ function PipePair:init(lastSize, lastCenter, bird)
     local trans = lastSize * GAP.transition
     self.center = lastCenter + ((direct) and (trans) or (-trans))
 
-    -- new gap size
-    self.gapSize = math.random(GAP.range.low, GAP.range.high)
-
     -- calculate new upper and lower bound
-    local newUp = self.center - self.gapSize / 2
-    local newDown = self.center + self.gapSize / 2
+    local newUp = self.center - gapSize / 2
+    local newDown = self.center + gapSize / 2
 
     -- move pipes to screen if it's out of screen
     if newDown > GAME.dim.vh - 10 then
         newDown = GAME.dim.vh - 10
-        newUp = newDown - self.gapSize
-        self.center = newDown - self.gapSize / 2
+        newUp = newDown - gapSize
+        self.center = newDown - gapSize / 2
     end
     if newUp < 10 then
         newUp = 10
-        newDown = newUp + self.gapSize
-        self.center = newUp + self.gapSize / 2
+        newDown = newUp + gapSize
+        self.center = newUp + gapSize / 2
     end
-
-    -- -- log
-    -- logText = ''
-    -- logText = logText .. (direct and 'down' or 'up') .. '   trans:' .. trans
-    -- logText = logText .. '\n'
-    -- logText = logText .. lastSize .. '==center' .. lastCenter
-    -- logText = logText .. '\n'
-    -- logText = logText .. self.gapSize .. '==center' .. self.center
-    -- logText = logText .. '\n'
-    -- logText = logText .. '\n'
-    -- logText = logText .. '\n'
-    -- logText = logText .. newUp - newUp % 1
-    -- logText = logText .. '\n'
-    -- logText = logText .. newDown - newDown % 1
 
     -- set pipe dimensions
     local pw = PIPE.w

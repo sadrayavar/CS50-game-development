@@ -28,13 +28,12 @@ TitleState = require 'dep.states.TitleState'
 CountdownState = require 'dep.states.CountdownState'
 ScoreState = require 'dep.states.ScoreState'
 
--- import main love functions (in order of executin)
+-- import main love functions (in order of execution)
 require 'dep.main_funcs.load'
 require 'dep.main_funcs.resize'
 require 'dep.main_funcs.keypressed'
 require 'dep.main_funcs.update'
 require 'dep.main_funcs.draw'
 --[[
-	FIXME background
 TODO difficulty growing
 ]]

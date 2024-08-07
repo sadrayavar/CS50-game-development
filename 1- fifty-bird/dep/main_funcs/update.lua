@@ -1,14 +1,8 @@
 function love.update(dt)
-    -- update backgrounds
-    local BG_SPEED = {
-        ['0'] = 0,
-        ['1'] = 20,
-        ['2'] = 40
-    }
-    bgPos['0'] = (bgPos['0'] + BG_SPEED['0'] * dt) % GAME.dim.vw
-    bgPos['1'] = (bgPos['1'] + BG_SPEED['1'] * dt) % GAME.dim.vw
-    bgPos['2'] = (bgPos['2'] + BG_SPEED['2'] * dt) % GAME.dim.vw
-
+    -- update background in all of states
+    for i = 1, 7, 1 do
+        bgPos[tostring(i)] = (bgPos[tostring(i)] + GAME.bgSpeed[tostring(i)] * dt) % GAME.dim.vw
+    end
     -- update states
     gStateMachine:update(dt)
 

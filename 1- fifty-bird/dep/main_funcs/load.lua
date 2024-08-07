@@ -22,11 +22,13 @@ function love.load()
     musics = musics
 
     -- background starting position
-    bgPos = {
-        ['0'] = 0,
-        ['1'] = 0,
-        ['2'] = 0
-    }
+    bgPos = {}
+    for i = 1, 7, 1 do
+        bgPos[tostring(i)] = 0
+    end
+
+    -- log text
+    logText = ''
 
     -- initialize state machine
     gStateMachine = StateMachine {
