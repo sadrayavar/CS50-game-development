@@ -6,7 +6,7 @@ function PlayState:enter(params)
     local paused = params.paused or false
     if paused then
         bird = params.bird
-        self.pipeArray = params.pipeArray
+        pipeArray = params.pipeArray
         self.lastGap = params.lastGap
     else
         -- initializing global to default value (reset difficulty handles)
@@ -30,7 +30,7 @@ function PlayState:init()
     self.lastGap.center = GAME.dim.vh / 2 -- last y to transit new pipe according to it
 
     -- pipes tables to save the created pipes
-    self.pipeArray = {}
+    pipeArray = {}
 end
 
 function PlayState:update(dt)
@@ -38,7 +38,7 @@ function PlayState:update(dt)
         gStateMachine:change('pause', {
             paused = true,
             bird = bird,
-            pipeArray = self.pipeArray,
+            pipeArray = pipeArray,
             lastGap = self.lastGap
         })
     end
@@ -59,7 +59,22 @@ function PlayState:update(dt)
 
         -- generate pipe and insert it to the pipe table        
         local newPair = PipePair(self.lastGap.size, self.lastGap.center, newGap)
-        table.insert(self.pipeArray, newPair)
+        table.insert(pipeArray, newPair)
+
+        -- trigger collusion flag on two next pairs
+        local i = 0
+        for key, pair in pairs(pipeArray) do
+            if not pair.topPipe.scored then
+                i = i + 1
+
+                if i < 3 then
+                    pair.topPipe.collide = true
+                    pair.btmPipe.collide = true
+                else
+                    break
+                end
+            end
+        end
 
         -- update last gap
         self.lastGap = {
@@ -93,7 +108,7 @@ function PlayState:update(dt)
     end
 
     -- move pipes
-    for k, p in pairs(self.pipeArray) do
+    for k, p in pairs(pipeArray) do
         p:update(dt)
 
         -- set removable flag on pipes
@@ -103,9 +118,9 @@ function PlayState:update(dt)
     end
 
     -- remove pipes
-    for k, p in pairs(self.pipeArray) do
+    for k, p in pairs(pipeArray) do
         if p.rmvbl then
-            table.remove(self.pipeArray, k)
+            table.remove(pipeArray, k)
         end
     end
 end
@@ -115,7 +130,7 @@ function PlayState:render()
     bird:render()
 
     -- render pipe
-    for k, p in pairs(self.pipeArray) do
+    for k, p in pairs(pipeArray) do
         p:render()
     end
 

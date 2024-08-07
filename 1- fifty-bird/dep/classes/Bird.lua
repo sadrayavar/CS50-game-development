@@ -17,11 +17,11 @@ end
 function Bird:update(dt)
     -- handle inputs
     if love.keyboard.keysPressed["space"] then
-        self.dy = -BIRD['jump']
+        self.dy = -BIRD.jump
     end
 
     -- increment velocity and position of the bird according to it
-    self.dy = self.dy + GAME['gravity'] * dt
+    self.dy = self.dy + GAME.gravity * dt
     self.y = self.y + self.dy
 end
 
