@@ -16,7 +16,6 @@ getState = require 'dep.lib.physics.state'
 
 -- import classes
 Bird = require 'dep.classes.Bird'
-Wall = require 'dep.classes.Wall'
 Pipe = require 'dep.classes.Pipe'
 PipePair = require 'dep.classes.PipePair'
 

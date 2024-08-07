@@ -18,11 +18,6 @@ function PlayState:init()
     -- bird object
     bird = Bird()
 
-    -- horizontal walls
-    local wallThick = 500
-    self.upperWall = Wall(0, -wallThick, GAME.dim.vw, wallThick)
-    self.lowerWall = Wall(0, GAME.dim.vh, GAME.dim.vw, wallThick)
-
     -- initializing gap attributes
     self.lastGap = {}
     self.lastGap.passed = PIPE.distance -- set to constent distance to spawn every time respective distance is passed
@@ -34,6 +29,7 @@ function PlayState:init()
 end
 
 function PlayState:update(dt)
+    -- pause the game
     if love.keyboard.wasPressed('escape') then
         gStateMachine:change('pause', {
             paused = true,
@@ -45,10 +41,6 @@ function PlayState:update(dt)
 
     -- update bird logic
     bird:update(dt)
-
-    -- update wall logic
-    self.upperWall:update(dt)
-    self.lowerWall:update(dt)
 
     -- spawn pipes
     local passedNow = dt * PIPE.speed

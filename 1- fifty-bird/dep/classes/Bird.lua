@@ -23,6 +23,13 @@ function Bird:update(dt)
     -- increment velocity and position of the bird according to it
     self.dy = self.dy + GAME.gravity * dt
     self.y = self.y + self.dy
+
+    -- vertical edge collusion
+    if (self.y <= 0) or (self.y + self.h >= GAME.dim.vh) then
+        gStateMachine:change('score', {
+            score = self.score
+        })
+    end
 end
 
 function Bird:render()
