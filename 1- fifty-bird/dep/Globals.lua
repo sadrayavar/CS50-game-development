@@ -40,7 +40,7 @@ local function initGlobals()
 
     PIPE = {
         ['w'] = 50, -- width of each pipe
-        ['speed'] = GAME.bgSpeed['7'] * 1.1, -- pipe speed (pixel per second)
+        ['speed'] = GAME.bgSpeed['7'] * 1.05, -- pipe speed (pixel per second)
         ['distance'] = 5 * BIRD.w -- distance between pipes
     }
     PIPE.distance = PIPE.distance + PIPE.w -- increment distance between pipes by the pipe width

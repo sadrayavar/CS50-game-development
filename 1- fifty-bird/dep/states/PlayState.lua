@@ -87,23 +87,28 @@ function PlayState:update(dt)
             increase difficulty
         ]]
 
-        GAME.gravity = GAME.gravity * 1.01
-
-        for i = 1, 7, 1 do
-            GAME.bgSpeed[tostring(i)] = GAME.bgSpeed[tostring(i)] * 1.1
-        end
-        PIPE.speed = 1.1 * GAME.bgSpeed['7']
-
-        if (GAP.size) <= GAME.dim.vh then
-            GAP.size = GAP.size * 0.9
+        if GAME.gravity < 15 then
+            GAME.gravity = GAME.gravity * 1.05
         end
 
-        if (GAP.transition) < 2 then
-            GAP.transition = GAP.transition * 1.1
+        if GAME.bgSpeed['7'] < 300 then
+            for i = 1, 7, 1 do
+                GAME.bgSpeed[tostring(i)] = GAME.bgSpeed[tostring(i)] * 1.05
+            end
+            PIPE.speed = 1.1 * GAME.bgSpeed['7']
+        end
+        logText = PIPE.speed
+
+        if GAP.size >= GAME.dim.vh / 4 then
+            GAP.size = GAP.size * 0.95
         end
 
-        if PIPE.distance > BIRD.w then
-            PIPE.distance = PIPE.distance * 0.9
+        -- if (GAP.transition) < 0.5 then
+        --     GAP.transition = GAP.transition * 1.05
+        -- end
+
+        if PIPE.distance > (BIRD.w + PIPE.w) then
+            PIPE.distance = PIPE.distance * 0.95
         end
     end
 
