@@ -24,18 +24,21 @@ function Pipe:update(dt)
     -- move pipe to the left
     self.x = self.x - PIPE.speed * dt
 
-    -- calculate the current state of this pipe according to the bird
-    local crrntState = getState(self, self.bird)
+    -- do not calculate if this pipe is passed (performance)
+    if not self.scored then
+        -- calculate the current state of this pipe according to the bird
+        local crrntState = getState(self, self.bird)
 
-    -- check if collusion is made
-    if isCollide(self.lastColl, crrntState) then
-        gStateMachine:change('score', {
-            score = self.bird.score
-        })
+        -- check if collusion is made
+        if isCollide(self.lastColl, crrntState) then
+            gStateMachine:change('score', {
+                score = self.bird.score
+            })
+        end
+
+        -- update last collusion state
+        self.lastColl = crrntState
     end
-
-    -- update last collusion state
-    self.lastColl = crrntState
 
     -- increase score
     if self.top and not self.scored then
