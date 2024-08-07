@@ -1,4 +1,6 @@
 function love.load()
+    initGlobals()
+
     -- set title
     love.window.setTitle(GAME.title)
 

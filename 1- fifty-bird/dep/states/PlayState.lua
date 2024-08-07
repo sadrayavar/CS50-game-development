@@ -3,10 +3,14 @@ local PlayState = Class {
 }
 
 function PlayState:enter(params)
-    if params.paused or false then
+    local paused = params.paused or false
+    if paused then
         self.bird = params.bird
         self.pipeArray = params.pipeArray
         self.lastGap = params.lastGap
+    else
+        -- initializing global to default value (reset difficulty handles)
+        initGlobals()
     end
 end
 
@@ -22,7 +26,7 @@ function PlayState:init()
     -- initializing gap attributes
     self.lastGap = {}
     self.lastGap.passed = PIPE.distance -- set to constent distance to spawn every time respective distance is passed
-    self.lastGap.size = GAP.range.high -- saving last gap's size to transit the new gap according to it
+    self.lastGap.size = GAP.size -- saving last gap's size to transit the new gap according to it
     self.lastGap.center = GAME.dim.vh / 2 -- last y to transit new pipe according to it
 
     -- pipes tables to save the created pipes
@@ -48,10 +52,10 @@ function PlayState:update(dt)
 
     -- spawn pipes
     local passedNow = dt * PIPE.speed
-    self.lastGap.passed = self.lastGap.passed + passedNow -- update spawnTimer
+    self.lastGap.passed = self.lastGap.passed + passedNow -- update passed distance
     if self.lastGap.passed >= PIPE.distance then
         -- new gap size
-        local newGap = math.random(GAP.range.low, GAP.range.high)
+        local newGap = math.random(GAP.size, GAP.size * 1.5)
 
         -- generate pipe and insert it to the pipe table        
         local newPair = PipePair(self.lastGap.size, self.lastGap.center, newGap, self.bird)
@@ -63,6 +67,29 @@ function PlayState:update(dt)
             ['size'] = newGap, -- update last gap size
             ['center'] = newPair.center -- update last gap center
         }
+
+        --[[
+            increase difficulty
+        ]]
+
+        GAME.gravity = GAME.gravity * 1.01
+
+        for i = 1, 7, 1 do
+            GAME.bgSpeed[tostring(i)] = GAME.bgSpeed[tostring(i)] * 1.1
+        end
+        PIPE.speed = 1.1 * GAME.bgSpeed['7']
+
+        if (GAP.size) <= GAME.dim.vh then
+            GAP.size = GAP.size * 0.9
+        end
+
+        if (GAP.transition) < 2 then
+            GAP.transition = GAP.transition * 1.1
+        end
+
+        if PIPE.distance > BIRD.w then
+            PIPE.distance = PIPE.distance * 0.9
+        end
     end
 
     -- move pipes

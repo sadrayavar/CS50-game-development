@@ -12,6 +12,7 @@ function ScoreState:update(dt)
             paused = false
         })
     elseif love.keyboard.wasPressed('q') then -- go to title
+        initGlobals() -- initializing global to default value (reset difficulty handles)
         gStateMachine:change("title")
     end
 end

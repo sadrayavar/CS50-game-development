@@ -1,5 +1,5 @@
--- import constents to support constent usage on assets
-require 'dep.constents'
+-- import Globals.lua to support global usage on assets
+initGlobals = require 'dep.Globals'
 
 -- import assets
 fonts = require 'assets.fonts.fonts'
@@ -34,6 +34,3 @@ require 'dep.main_funcs.resize'
 require 'dep.main_funcs.keypressed'
 require 'dep.main_funcs.update'
 require 'dep.main_funcs.draw'
---[[
-TODO difficulty growing
-]]
