@@ -2,12 +2,21 @@ local TitleState = Class {
     __includes = BaseState
 }
 
+function TitleState:enter()
+    -- initialize menu soundtrack source
+    soundtrack = musics.menu('loop')
+    soundtrack:play()
+end
+
 function TitleState:update(dt)
-    if love.keyboard.wasPressed('return') or love.keyboard.wasPressed('kpenter') then -- start playing
-        gStateMachine:change('countdown', {
-            paused = false
-        })
-    elseif love.keyboard.wasPressed('escape') then -- quit the game 
+    if love.keyboard.wasPressed('return') or love.keyboard.wasPressed('kpenter') then -- if enter is pressed
+        -- stop playing the soundtrack
+        love.audio.pause(soundtrack)
+
+        -- start counting down
+        stateMachine:change('countdown')
+    elseif love.keyboard.wasPressed('escape') then -- if Esc is pressed
+        -- quit the game 
         love.event.quit()
     end
 end
@@ -17,15 +26,15 @@ function TitleState:render()
 
     -- printing game name
     local text = 'Fifty Bird'
-    local font = fonts.cubic(GAME.dim.vh / 3.5)
-    local x = (GAME.dim.vw - font:getWidth(text)) / 2
-    local y = GAME.dim.vh / 4
+    local font = fonts.cubic(GLOB.game.dim.vh / 3.5)
+    local x = (GLOB.game.dim.vw - font:getWidth(text)) / 2
+    local y = GLOB.game.dim.vh / 4
     love.graphics.print(text, font, x, y)
 
     -- printing key hint
     local text = 'Press "Enter" to start playing and "Esc" to exit!'
-    local font = fonts.dense(GAME.dim.vh / 12)
-    local x = (GAME.dim.vw - font:getWidth(text)) / 2
+    local font = fonts.dense(GLOB.game.dim.vh / 12)
+    local x = (GLOB.game.dim.vw - font:getWidth(text)) / 2
     love.graphics.print(text, font, x, 3 * y)
 end
 

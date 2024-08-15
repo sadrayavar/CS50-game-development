@@ -8,7 +8,7 @@ function PipePair:init(lastSize, lastCenter, gapSize)
     local direct = math.random() > 0.5 -- true for down and false for up
 
     -- calculate new center
-    local trans = lastSize * GAP.transition
+    local trans = lastSize * GLOB.gap.transition
     self.center = lastCenter + ((direct) and (trans) or (-trans))
 
     -- calculate new upper and lower bound
@@ -16,8 +16,8 @@ function PipePair:init(lastSize, lastCenter, gapSize)
     local newDown = self.center + gapSize / 2
 
     -- move pipes to screen if it's out of screen
-    if newDown > GAME.dim.vh - 10 then
-        newDown = GAME.dim.vh - 10
+    if newDown > GLOB.game.dim.vh - 10 then
+        newDown = GLOB.game.dim.vh - 10
         newUp = newDown - gapSize
         self.center = newDown - gapSize / 2
     end
@@ -28,9 +28,9 @@ function PipePair:init(lastSize, lastCenter, gapSize)
     end
 
     -- set pipe dimensions
-    local pw = PIPE.w
-    local ph = GAME.dim.vh
-    local px = GAME.dim.vw
+    local pw = GLOB.pipe.w
+    local ph = GLOB.game.dim.vh
+    local px = GLOB.game.dim.vw
     local pyu = newUp - ph -- for upper pipe
     local pyl = newDown -- for lower pipe
 

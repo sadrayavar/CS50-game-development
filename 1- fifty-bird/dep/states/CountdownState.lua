@@ -3,32 +3,26 @@ local CountdownState = Class {
 }
 
 function CountdownState:enter(params)
-    self.paused = params.paused
-    if self.paused then
-        bird = params.bird
+    if stateMachine.previous == 'pause' then
         self.pipeArray = params.pipeArray
         self.lastGap = params.lastGap
     end
-end
 
-function CountdownState:init()
-    self.numbersToCount = 3
-    self.virtualSec = 0.5
+    -- initialize countdown related parameters from global variable
+    self.numbersToCount = GLOB.game.countdown.numbersToCount
+    self.virtualSec = GLOB.game.countdown.virtualSec
 end
 
 function CountdownState:update(dt)
+    -- updating countdown numbers
     self.numbersToCount = self.numbersToCount - (dt / self.virtualSec)
+
+    -- switch to play state after time is passed
     if self.numbersToCount <= 0.01 then
-        if self.paused then
-            gStateMachine:change('play', {
-                paused = true,
-                bird = bird,
-                pipeArray = self.pipeArray,
-                lastGap = self.lastGap
-            })
-        end
-        gStateMachine:change('play', {
-            paused = false
+        stateMachine:change('play', {
+            ['paused'] = stateMachine.previous == 'pause',
+            ['pipeArray'] = self.pipeArray,
+            ['lastGap'] = self.lastGap
         })
     end
 end
@@ -37,15 +31,15 @@ function CountdownState:render()
     love.graphics.setColor(0 / 255, 0 / 255, 0 / 255)
 
     -- printing numbers
-    local font = fonts.cubic(GAME.dim.vh / 3)
-    local x = (GAME.dim.vw - font:getWidth(math.floor(self.numbersToCount))) / 2
-    local y = GAME.dim.vh / 4
+    local font = fonts.cubic(GLOB.game.dim.vh / 3)
+    local x = (GLOB.game.dim.vw - font:getWidth(math.floor(self.numbersToCount))) / 2
+    local y = GLOB.game.dim.vh / 4
     love.graphics.print(tostring(math.ceil(self.numbersToCount)), font, x, y)
 
     -- printing pause hint
-    local font = fonts.dense(GAME.dim.vh / 12)
+    local font = fonts.dense(GLOB.game.dim.vh / 12)
     local text = 'Hint: Press "Esc" to pause during playing!'
-    local x = (GAME.dim.vw - font:getWidth(text)) / 2
+    local x = (GLOB.game.dim.vw - font:getWidth(text)) / 2
     love.graphics.print(text, font, x, 3 * y)
 end
 

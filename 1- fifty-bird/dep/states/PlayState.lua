@@ -3,39 +3,44 @@ local PlayState = Class {
 }
 
 function PlayState:enter(params)
-    local paused = params.paused or false
-    if paused then
-        bird = params.bird
-        pipeArray = params.pipeArray
+    if params.paused then -- if it's unpaused
+        -- reinit game setting to continue playing where its left
         self.lastGap = params.lastGap
-    else
-        -- initializing global to default value (reset difficulty handles)
+        pipeArray = params.pipeArray
+    else -- if it's just started
+        -- initializing global to default value to reset difficulty handles
         initGlobals()
+
+        -- bird object
+        bird = Bird()
+
+        -- initializing gap attributes
+        self.lastGap = {}
+        self.lastGap.passed = GLOB.pipe.distance -- set to constent distance to spawn every time respective distance is passed
+        self.lastGap.size = GLOB.gap.size -- saving last gap's size to transit the new gap according to it
+        self.lastGap.center = GLOB.game.dim.vh / 2 -- last y to transit new pipe according to it
+
+        -- pipes tables to save the created pipes
+        pipeArray = {}
+
+        -- initialize and play soundtrack source
+        soundtrack = musics.play('loop')
     end
-end
 
-function PlayState:init()
-    -- bird object
-    bird = Bird()
-
-    -- initializing gap attributes
-    self.lastGap = {}
-    self.lastGap.passed = PIPE.distance -- set to constent distance to spawn every time respective distance is passed
-    self.lastGap.size = GAP.size -- saving last gap's size to transit the new gap according to it
-    self.lastGap.center = GAME.dim.vh / 2 -- last y to transit new pipe according to it
-
-    -- pipes tables to save the created pipes
-    pipeArray = {}
+    -- continue playing track
+    soundtrack:play()
 end
 
 function PlayState:update(dt)
     -- pause the game
     if love.keyboard.wasPressed('escape') then
-        gStateMachine:change('pause', {
-            paused = true,
-            bird = bird,
-            pipeArray = pipeArray,
-            lastGap = self.lastGap
+        -- stop playing soundtrack
+        love.audio.pause(soundtrack)
+
+        -- pass the game setting related parameters so it is possible to continuo the game where its paused
+        stateMachine:change('pause', {
+            ['pipeArray'] = pipeArray,
+            ['lastGap'] = self.lastGap
         })
     end
 
@@ -43,11 +48,11 @@ function PlayState:update(dt)
     bird:update(dt)
 
     -- spawn pipes
-    local passedNow = dt * PIPE.speed
+    local passedNow = dt * GLOB.pipe.speed
     self.lastGap.passed = self.lastGap.passed + passedNow -- update passed distance
-    if self.lastGap.passed >= PIPE.distance then
+    if self.lastGap.passed >= GLOB.pipe.distance then
         -- new gap size
-        local newGap = math.random(GAP.size, GAP.size * 1.5)
+        local newGap = math.random(GLOB.gap.size, GLOB.gap.size * 1.5)
 
         -- generate pipe and insert it to the pipe table        
         local newPair = PipePair(self.lastGap.size, self.lastGap.center, newGap)
@@ -79,28 +84,23 @@ function PlayState:update(dt)
             increase difficulty
         ]]
 
-        if GAME.gravity < 15 then
-            GAME.gravity = GAME.gravity * 1.05
+        if GLOB.game.gravity < 15 then
+            GLOB.game.gravity = GLOB.game.gravity * 1.05
         end
 
-        if GAME.bgSpeed['7'] < 300 then
+        if GLOB.game.bgSpeed['7'] < 300 then
             for i = 1, 7, 1 do
-                GAME.bgSpeed[tostring(i)] = GAME.bgSpeed[tostring(i)] * 1.05
+                GLOB.game.bgSpeed[tostring(i)] = GLOB.game.bgSpeed[tostring(i)] * 1.05
             end
-            PIPE.speed = 1.1 * GAME.bgSpeed['7']
-        end
-        logText = PIPE.speed
-
-        if GAP.size >= GAME.dim.vh / 4 then
-            GAP.size = GAP.size * 0.95
+            GLOB.pipe.speed = 1.1 * GLOB.game.bgSpeed['7']
         end
 
-        -- if (GAP.transition) < 0.5 then
-        --     GAP.transition = GAP.transition * 1.05
-        -- end
+        if GLOB.gap.size >= GLOB.game.dim.vh / 4 then
+            GLOB.gap.size = GLOB.gap.size * 0.95
+        end
 
-        if PIPE.distance > (BIRD.w + PIPE.w) then
-            PIPE.distance = PIPE.distance * 0.95
+        if GLOB.pipe.distance > (GLOB.bird.w + GLOB.pipe.w) then
+            GLOB.pipe.distance = GLOB.pipe.distance * 0.95
         end
     end
 
@@ -133,7 +133,7 @@ function PlayState:render()
 
     -- print score
     love.graphics.setColor(0 / 255, 0 / 255, 0 / 255)
-    local font = fonts.cubic(GAME.dim.vh / 12)
+    local font = fonts.cubic(GLOB.game.dim.vh / 12)
     local text = 'Score: ' .. tostring(bird.score)
     love.graphics.print(text, font, 0, 0)
 end

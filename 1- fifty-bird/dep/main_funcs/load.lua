@@ -1,27 +1,8 @@
 function love.load()
+    -- initialize global variables
     initGlobals()
 
-    -- set title
-    love.window.setTitle(GAME.title)
-
-    -- pixelize images instead of making them blurry
-    love.graphics.setDefaultFilter('nearest', 'nearest')
-
-    -- set push library resizing properties 
-    Push:setupScreen(GAME.dim.vw, GAME.dim.vh, GAME.dim.w, GAME.dim.h, {
-        fullscreen = true,
-        resizable = false,
-        vsync = true
-    })
-
-    -- set random seed for randomizing purpose
-    math.randomseed(os.time())
-
-    -- requiring assets
-    fonts = fonts
-    images = images
-    sounds = sounds
-    musics = musics
+    soundtrack = nil
 
     -- background starting position
     bgPos = {}
@@ -33,7 +14,7 @@ function love.load()
     logText = ''
 
     -- initialize state machine
-    gStateMachine = StateMachine {
+    stateMachine = StateMachine {
         ['title'] = function()
             return TitleState()
         end,
@@ -50,5 +31,27 @@ function love.load()
             return ScoreState()
         end
     }
-    gStateMachine:change('title')
+    stateMachine:change('title')
+
+    -- set title
+    love.window.setTitle(GLOB.game.title)
+
+    -- pixelize images instead of making them blurry
+    love.graphics.setDefaultFilter('nearest', 'nearest')
+
+    -- set push library resizing properties 
+    Push:setupScreen(GLOB.game.dim.vw, GLOB.game.dim.vh, GLOB.game.dim.w, GLOB.game.dim.h, {
+        fullscreen = true,
+        resizable = false,
+        vsync = true
+    })
+
+    -- set random seed for randomizing purpose
+    math.randomseed(os.time())
+
+    -- requiring assets
+    fonts = fonts
+    images = images
+    sounds = sounds
+    musics = musics
 end

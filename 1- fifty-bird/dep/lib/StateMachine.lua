@@ -35,6 +35,9 @@
 StateMachine = Class {}
 
 function StateMachine:init(states)
+    self.previous = nil
+    self.temp = nil
+
     self.empty = {
         render = function()
         end,
@@ -50,6 +53,9 @@ function StateMachine:init(states)
 end
 
 function StateMachine:change(stateName, enterParams)
+    self.previous = self.temp
+    self.temp = stateName
+
     assert(self.states[stateName]) -- state must exist!
     self.current:exit()
     self.current = self.states[stateName]()

@@ -1,5 +1,5 @@
 -- import Globals.lua to support global usage on assets
-initGlobals = require 'dep.Globals'
+initGlobals = require 'dep.globals.globals'
 
 -- import assets
 fonts = require 'assets.fonts.fonts'
@@ -10,7 +10,7 @@ musics = require "assets.musics.musics"
 -- import libraries
 Push = require "dep.lib.Push"
 Class = require "dep.lib.Class"
-StateMachine = require "dep.lib.StateMachine"
+StateMachine = require "dep.lib.stateMachine"
 isCollide = require 'dep.lib.physics.collide'
 getState = require 'dep.lib.physics.state'
 

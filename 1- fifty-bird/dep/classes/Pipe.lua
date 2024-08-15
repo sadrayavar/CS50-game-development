@@ -18,7 +18,7 @@ end
 
 function Pipe:update(dt)
     -- move pipe to the left
-    self.x = self.x - PIPE.speed * dt
+    self.x = self.x - GLOB.pipe.speed * dt
 
     -- do not calculate if this pipe is passed (performance)
     if self.collide then
@@ -27,8 +27,12 @@ function Pipe:update(dt)
 
         -- check if collusion is made
         if isCollide(self.lastColl, crrntState) then
-            gStateMachine:change('score', {
-                score = bird.score
+            -- stop playing the soundtrack
+            love.audio.pause(soundtrack)
+
+            -- change to score soundtrack
+            stateMachine:change('score', {
+                ['score'] = bird.score
             })
         end
 
@@ -42,7 +46,7 @@ function Pipe:update(dt)
             -- increment score
             bird.score = bird.score + 1
 
-            -- trigger collide flag
+            -- trigger collide on current flag
             for key, pipePair in pairs(pipeArray) do
                 if not pipePair.topPipe.scored then
                     pipePair.topPipe.collide = false
