@@ -3,13 +3,15 @@ local CountdownState = Class {
 }
 
 function CountdownState:enter(params)
-    if stateMachine.previous == 'pause' then
+    if stateMachine.previous == 'pause' then -- if unpaused
+        -- pass the game setting varibales
         self.pipeArray = params.pipeArray
         self.lastGap = params.lastGap
     end
 
     -- initialize countdown related parameters from global variable
     self.numbersToCount = GLOB.game.countdown.numbersToCount
+    self.previousNumber = math.ceil(self.numbersToCount)
     self.virtualSec = GLOB.game.countdown.virtualSec
 end
 
@@ -17,8 +19,20 @@ function CountdownState:update(dt)
     -- updating countdown numbers
     self.numbersToCount = self.numbersToCount - (dt / self.virtualSec)
 
+    -- check if timer is decremented
+    if not (self.previousNumber == math.ceil(self.numbersToCount)) then
+        self.previousNumber = self.previousNumber - 1
+
+        -- play coundtdown sound if timer increments
+        sounds.countdown():play()
+    end
+
     -- switch to play state after time is passed
     if self.numbersToCount <= 0.01 then
+        -- play start sound
+        sounds.start():play()
+
+        -- switch to play state
         stateMachine:change('play', {
             ['paused'] = stateMachine.previous == 'pause',
             ['pipeArray'] = self.pipeArray,

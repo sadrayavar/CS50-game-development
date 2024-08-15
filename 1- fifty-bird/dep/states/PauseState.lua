@@ -10,12 +10,18 @@ end
 
 function PauseState:update(dt)
     if love.keyboard.wasPressed('escape') then -- if escape is pressed
+        -- play click sound
+        sounds.click():play()
+
         -- continue to play after countdown
         stateMachine:change('countdown', {
             ['pipeArray'] = self.pipeArray,
             ['lastGap'] = self.lastGap
         })
     elseif love.keyboard.wasPressed('q') then -- if q is pressed
+        -- play click sound
+        sounds.click():play()
+
         -- Go to title menu
         stateMachine:change("title")
     end

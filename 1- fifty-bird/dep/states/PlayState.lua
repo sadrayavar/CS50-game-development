@@ -23,17 +23,20 @@ function PlayState:enter(params)
         -- pipes tables to save the created pipes
         pipeArray = {}
 
-        -- initialize and play soundtrack source
+        -- initialize soundtrack source if it's just started
         soundtrack = musics.play('loop')
     end
 
-    -- continue playing track
+    -- play track
     soundtrack:play()
 end
 
 function PlayState:update(dt)
     -- pause the game
-    if love.keyboard.wasPressed('escape') then
+    if love.keyboard.wasPressed('escape') then -- if escape is pressed
+        -- play pause sound
+        sounds.pause():play()
+
         -- stop playing soundtrack
         love.audio.pause(soundtrack)
 

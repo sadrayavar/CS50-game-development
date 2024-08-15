@@ -20,13 +20,16 @@ function Pipe:update(dt)
     -- move pipe to the left
     self.x = self.x - GLOB.pipe.speed * dt
 
-    -- do not calculate if this pipe is passed (performance)
+    -- do not calculate if this pipe has passed (performance)
     if self.collide then
         -- calculate the current state of this pipe according to the bird
         local crrntState = getState(self, bird)
 
         -- check if collusion is made
         if isCollide(self.lastColl, crrntState) then
+            -- play the lost sound
+            sounds.lost():play()
+
             -- stop playing the soundtrack
             love.audio.pause(soundtrack)
 
@@ -43,6 +46,9 @@ function Pipe:update(dt)
     -- when passed the pipe pairs:
     if not self.scored and self.top then
         if self.x + self.w < bird.x then
+            -- play the score sound
+            sounds.score():play()
+
             -- increment score
             bird.score = bird.score + 1
 

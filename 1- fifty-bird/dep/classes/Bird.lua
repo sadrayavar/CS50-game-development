@@ -16,7 +16,11 @@ end
 
 function Bird:update(dt)
     -- handle inputs
-    if love.keyboard.keysPressed["space"] then
+    if love.keyboard.keysPressed["space"] then -- if space is pressed
+        -- play jump sound
+        sounds.jump():play()
+
+        -- set bird velocity
         self.dy = -GLOB.bird.jump
     end
 
@@ -26,6 +30,9 @@ function Bird:update(dt)
 
     -- vertical edge collusion
     if (self.y <= 0) or (self.y + self.h >= GLOB.game.dim.vh) then
+        -- play lost sound
+        sounds.lost():play()
+
         -- stop playing the soundtrack
         love.audio.pause(soundtrack)
 

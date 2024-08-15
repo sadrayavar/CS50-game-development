@@ -3,19 +3,25 @@ local TitleState = Class {
 }
 
 function TitleState:enter()
-    -- initialize menu soundtrack source
+    -- initialize menu soundtrack source and play it
     soundtrack = musics.menu('loop')
     soundtrack:play()
 end
 
 function TitleState:update(dt)
     if love.keyboard.wasPressed('return') or love.keyboard.wasPressed('kpenter') then -- if enter is pressed
+        -- play click sound
+        sounds.click():play()
+
         -- stop playing the soundtrack
         love.audio.pause(soundtrack)
 
         -- start counting down
         stateMachine:change('countdown')
     elseif love.keyboard.wasPressed('escape') then -- if Esc is pressed
+        -- play click sound
+        sounds.click():play()
+
         -- quit the game 
         love.event.quit()
     end

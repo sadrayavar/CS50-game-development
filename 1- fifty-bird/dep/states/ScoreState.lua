@@ -3,16 +3,27 @@ local ScoreState = Class {
 }
 
 function ScoreState:enter(params)
+    -- pass score to showcase on 'you lost' screen 
     self.score = params.score
 end
 
 function ScoreState:update(dt)
-    if love.keyboard.wasPressed('return') or love.keyboard.wasPressed('kpenter') then -- start playing
+    if love.keyboard.wasPressed('return') or love.keyboard.wasPressed('kpenter') then -- if enter is pressed
+        -- play click sound
+        sounds.click():play()
+
+        -- start playing
         stateMachine:change('countdown', {
             ['paused'] = false
         })
-    elseif love.keyboard.wasPressed('q') then -- go to title
-        initGlobals() -- initializing global to default value (reset difficulty handles)
+    elseif love.keyboard.wasPressed('q') then
+        -- play click sound
+        sounds.click():play()
+
+        -- initializing global to default value (reset difficulty handles)
+        initGlobals()
+
+        -- go to title
         stateMachine:change("title")
     end
 end

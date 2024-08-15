@@ -13,8 +13,18 @@ return function()
             ['7'] = 60
         },
         ['volume'] = {
-            ['menu'] = 1,
-            ['play'] = 1
+            -- musics
+            ['menu'] = 0.35,
+            ['play'] = 0.1,
+
+            -- sounds
+            ['lost'] = 1,
+            ['score'] = 1,
+            ['jump'] = 10,
+            ['countdown'] = 4,
+            ['start'] = 1,
+            ['click'] = 1,
+            ['pause'] = 1
         },
         ['countdown'] = {
             ['numbersToCount'] = 3,

@@ -1,10 +1,19 @@
 -- sounds root path
 local rootPath = "assets/sounds/"
-
--- paddleMove
--- local paddleMove = love.audio.newSource(rootPath .. "paddle.wav", "static")
-
--- all sounds dictionary
-return {
-    -- ['paddleMove'] = paddleMove,
+local sounds = {
+    ['lost'] = "lost.mp3",
+    ['score'] = "score.mp3",
+    ['jump'] = "jump.mp3",
+    ['countdown'] = "countdown.wav",
+    ['start'] = "start.wav",
+    ['click'] = "click.mp3",
+    ['pause'] = "pause.mp3"
 }
+
+for key, path in pairs(sounds) do
+    sounds[key] = function(loop)
+        return GLOB.genAudio(rootPath .. path, 'static', loop, GLOB.game.volume[key])
+    end
+end
+
+return sounds
